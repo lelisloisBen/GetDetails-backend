@@ -106,7 +106,7 @@ def get_message():
     body = request.get_json()
 
     if request.method == 'POST':
-        chat = Chat.query.filter_by(fromId=body['fromId'] or toId=body['toId'])
+        chat = Chat.query.filter_by(fromId=body['fromId'], toId=body['toId'])
 
         if not chat:
             return jsonify({'msg':'messages not found'}), 404
