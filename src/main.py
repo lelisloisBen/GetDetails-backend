@@ -100,7 +100,7 @@ def handle_register():
         'msg': 'Successfully Registered'
     })
 
-@app.route('/message', methods=['POST'])
+@app.route('/read_message', methods=['POST'])
 def get_message():
 
     body = request.get_json()
@@ -114,6 +114,21 @@ def get_message():
         return jsonify( [x.serialize() for x in chat] ), 200
 
     return "Invalid Method", 404
+
+@app.route('/new_message', methods=['POST'])
+def add_message():
+    body = request.get_json()
+
+     db.session.add(Chat(
+        fromId = body["fromId"],
+        fromName = body["fromName"],
+        fromEmail = body["fromEmail"],
+        toId = body["toId"],
+        toName = body["toName"],
+        toEmail = body["toEmail"],
+        message = body["message"],
+        dateSent = body["dateSent"]
+    ))
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
