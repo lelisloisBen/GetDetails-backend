@@ -7,7 +7,7 @@ from flask_migrate import Migrate
 from flask_swagger import swagger
 from flask_cors import CORS
 from utils import APIException, generate_sitemap, sha256
-from models import db, Users
+from models import db, Users, Chat
 from flask_jwt_simple import JWTManager, jwt_required, create_jwt
 #from models import Person
 
@@ -99,6 +99,21 @@ def handle_register():
         'register': 'success',
         'msg': 'Successfully Registered'
     })
+
+@app.route('/message', methods=['POST'])
+def get_message():
+
+    body = request.get_json()
+
+    if request.method == 'POST':
+        chat = Chat.query.filter_by(fromId=body['fromId'] or toId=body['toId'])
+
+        if not chat:
+            return jsonify({'msg':'messages not found'}), 404
+
+        return jsonify( [x.serialize() for x in chat] ), 200
+
+    return "Invalid Method", 404
 
 # this only runs if `$ python src/main.py` is executed
 if __name__ == '__main__':
