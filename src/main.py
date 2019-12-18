@@ -119,7 +119,7 @@ def get_message():
 def add_message():
     body = request.get_json()
 
-     db.session.add(Chat(
+    db.session.add(Chat(
         fromId = body["fromId"],
         fromName = body["fromName"],
         fromEmail = body["fromEmail"],
