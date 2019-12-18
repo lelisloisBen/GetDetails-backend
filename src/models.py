@@ -25,3 +25,32 @@ class Users(db.Model):
             "wallet": self.wallet,
             "admin": self.admin
         }
+    
+class Chat(db.Model):
+    id = db.Column(db.Integer, primary_key=True)
+    fromId = db.Column(db.Integer)
+    fromName = db.Column(db.String(120))
+    fromEmail = db.Column(db.String(120))
+    toId = db.Column(db.Integer)
+    toName = db.Column(db.String(120))
+    toEmail = db.Column(db.String(120))
+    message = db.Column(db.Text)
+    dateSent = db.Column(db.String(120))
+    read = db.Column(db.Integer, default=0)
+
+    def __repr__(self):
+        return '<Chat %r>' % self.fromName
+    
+    def serialize(self):
+        return {
+            "id": self.id,
+            "fromId": self.fromId,
+            "fromName": self.fromName,
+            "fromEmail": self.fromEmail,
+            "toId": self.toId,
+            "toName": self.toName,
+            "toEmail": self.toEmail,
+            "message": self.message,
+            "dateSent": self.dateSent,
+            "read": self.read
+        }
